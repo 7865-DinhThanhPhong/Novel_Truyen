@@ -1,12 +1,12 @@
 class Rating {
-  String _id;
+  int? _id;
   String _userId;
   String _storyId;
   double _value;
   DateTime _createdAt;
 
   Rating({
-    required String id,
+    int? id,
     required String userId,
     required String storyId,
     required double value,
@@ -18,14 +18,14 @@ class Rating {
         _createdAt = createdAt;
 
   // Getters
-  String get id => _id;
+  int? get id => _id;
   String get userId => _userId;
   String get storyId => _storyId;
   double get value => _value;
   DateTime get createdAt => _createdAt;
 
   // Setters
-  set id(String value) {
+  set id(int? value) {
     _id = value;
   }
 
@@ -61,7 +61,7 @@ class Rating {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': _id,
+      // 'id': _id, // Removed id for auto-increment
       'userId': _userId,
       'storyId': _storyId,
       'value': _value,

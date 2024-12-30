@@ -1,12 +1,12 @@
 class User {
-  String _id;
+  int? _id;
   String _username;
   String _email;
   List<String> _favoriteStories;
   List<String> _readStories;
 
   User({
-    required String id,
+    int? id,
     required String username,
     required String email,
     List<String> favoriteStories = const [],
@@ -18,14 +18,14 @@ class User {
         _readStories = readStories;
 
   // Getters
-  String get id => _id;
+  int? get id => _id;
   String get username => _username;
   String get email => _email;
   List<String> get favoriteStories => _favoriteStories;
   List<String> get readStories => _readStories;
 
   // Setters
-  set id(String value) {
+  set id(int? value) {
     _id = value;
   }
 
@@ -57,7 +57,7 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': _id,
+      // 'id': _id, // Removed id for auto-increment
       'username': _username,
       'email': _email,
       'favoriteStories': _favoriteStories,

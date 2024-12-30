@@ -1,5 +1,5 @@
 class Bookmark {
-  String _id;
+  int? _id;
   String _userId;
   String _storyId;
   String _chapterId;
@@ -7,7 +7,7 @@ class Bookmark {
   DateTime _createdAt;
 
   Bookmark({
-    required String id,
+    int? id,
     required String userId,
     required String storyId,
     required String chapterId,
@@ -21,7 +21,7 @@ class Bookmark {
         _createdAt = createdAt;
 
   // Getters
-  String get id => _id;
+  int? get id => _id;
   String get userId => _userId;
   String get storyId => _storyId;
   String get chapterId => _chapterId;
@@ -29,7 +29,7 @@ class Bookmark {
   DateTime get createdAt => _createdAt;
 
   // Setters
-  set id(String value) {
+  set id(int? value) {
     _id = value;
   }
 
@@ -66,7 +66,7 @@ class Bookmark {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': _id,
+      // 'id': _id, // Removed id for auto-increment
       'userId': _userId,
       'storyId': _storyId,
       'chapterId': _chapterId,

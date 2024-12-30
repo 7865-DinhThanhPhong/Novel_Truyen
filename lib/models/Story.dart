@@ -1,7 +1,7 @@
 import 'chapter.dart';
 
 class Story {
-  String _id;
+  int? _id;
   String _title;
   String _author;
   String _description;
@@ -14,7 +14,9 @@ class Story {
   bool _isCompleted;
 
   Story({
-    required String id,  required String title,  required String author,
+    int? id,
+    required String title,
+    required String author,
     required String description,
     required String coverImageUrl,
     required List<Chapter> chapters,
@@ -36,30 +38,20 @@ class Story {
         _isCompleted = isCompleted;
 
   // Getters
-  String get id => _id;
-
+  int? get id => _id;
   String get title => _title;
-
   String get author => _author;
-
   String get description => _description;
-
   String get coverImageUrl => _coverImageUrl;
-
   List<Chapter> get chapters => _chapters;
-
   List<String> get genres => _genres;
-
   int get views => _views;
-
   DateTime get createdAt => _createdAt;
-
   DateTime get updatedAt => _updatedAt;
-
   bool get isCompleted => _isCompleted;
 
   // Setters
-  set id(String value) {
+  set id(int? value) {
     _id = value;
   }
 
@@ -127,7 +119,7 @@ class Story {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': _id,
+      // 'id': _id, // Removed id for auto-increment
       'title': _title,
       'author': _author,
       'description': _description,

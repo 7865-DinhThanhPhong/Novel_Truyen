@@ -1,12 +1,12 @@
 class Chapter {
-  String _id;
+  int? _id;
   String _title;
   String _content;
   int _chapterNumber;
   DateTime _publishedAt;
 
   Chapter({
-    required String id,
+    int? id,
     required String title,
     required String content,
     required int chapterNumber,
@@ -18,14 +18,14 @@ class Chapter {
         _publishedAt = publishedAt;
 
   // Getters
-  String get id => _id;
+  int? get id => _id;
   String get title => _title;
   String get content => _content;
   int get chapterNumber => _chapterNumber;
   DateTime get publishedAt => _publishedAt;
 
   // Setters
-  set id(String value) {
+  set id(int? value) {
     _id = value;
   }
 
@@ -57,7 +57,7 @@ class Chapter {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': _id,
+      // 'id': _id, // Removed id for auto-increment
       'title': _title,
       'content': _content,
       'chapterNumber': _chapterNumber,
