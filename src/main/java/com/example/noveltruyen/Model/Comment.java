@@ -1,4 +1,5 @@
 package com.example.noveltruyen.Model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,11 +23,15 @@ public class Comment {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    // Thay đổi kiểu dữ liệu thành Long và thêm mapping
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "story_id", nullable = false)
-    private String storyId;
+    // Thay đổi kiểu dữ liệu thành Long và thêm mapping
+    @ManyToOne
+    @JoinColumn(name = "story_id", nullable = false)
+    private Story story;
 
     @Lob
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
@@ -37,4 +43,13 @@ public class Comment {
 
     @CreationTimestamp
     private LocalDateTime updateAt;
+
+    // Thêm các trường để hỗ trợ comment phản hồi
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Comment parent; // Tham chiếu đến comment cha (nếu là comment phản hồi)
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> replies; // Danh sách các comment phản hồi
 }

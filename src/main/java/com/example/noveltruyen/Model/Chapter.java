@@ -36,7 +36,11 @@ public class Chapter {
     @CreationTimestamp
     private LocalDateTime createAt;
 
-
+    @ManyToOne
+    @JoinColumn(name = "story_id")
+    private Story story;
     @Column
     private LocalDateTime updateAt;
+
+    private int view;
 }

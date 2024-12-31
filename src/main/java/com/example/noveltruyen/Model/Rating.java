@@ -23,10 +23,10 @@ public class Rating {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private String userId;
+    private Long userId;
 
     @Column(name = "story_id", nullable = false)
-    private String storyId;
+    private Long storyId;
 
     @Column(name = "value", nullable = false)
     private double value;

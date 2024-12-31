@@ -36,7 +36,7 @@ public class Story {
     @Column(name = "cover_image_url")
     private String coverImageUrl;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "story_id")
     private List<Chapter> chapters;
 
