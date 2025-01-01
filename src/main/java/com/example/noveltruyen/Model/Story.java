@@ -30,8 +30,12 @@ public class Story {
     private String author;
 
     @Lob
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT") //description gốc
     private String description;
+
+    @Lob
+    @Column (columnDefinition = "TEXT")
+    private String descriptionShow; // description khi dùng editor
 
     @Column(name = "cover_image_url")
     private String coverImageUrl;
@@ -62,4 +66,6 @@ public class Story {
 
     @Column(name = "is_completed", nullable = false, columnDefinition = "boolean default false")
     private boolean isCompleted;
+
+
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -22,7 +23,7 @@ public class CategoryService {
     }
 
     public Category getByName  (String name) {
-        return categoryRepository.finByName(name);
+        return categoryRepository.findAll().stream().filter(ca -> ca.getName().equals(name)).findFirst().get();
     }
 
     public Category Save (Category category){
