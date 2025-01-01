@@ -46,15 +46,15 @@ public class HistoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new RuntimeException("Story not found"));
 
-        History history = historyRepository.findByUserIdAndStoryId(user.getId(), story.getId());
+        History history = historyRepository.findByUserIdAndStoryId(user.getUserId(), story.getId());
 
         if (history == null) {
             history = new History();
-            history.setUserId(String.valueOf(user.getId()));
-            history.setStoryId(String.valueOf(story.getId()));
+            history.setUserId(user.getUserId());
+            history.setStoryId(story.getId());
         }
 
-        history.setChapterId(String.valueOf(chapterId));
+        history.setChapterId(chapterId);
         history.setCreatedAt(LocalDateTime.now());
 
         return historyRepository.save(history);

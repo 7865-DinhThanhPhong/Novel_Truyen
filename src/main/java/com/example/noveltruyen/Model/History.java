@@ -23,13 +23,13 @@ public class History {
     private Long id;
 
     @Column( nullable = false)
-    private String userId;
+    private Long userId;
 
     @Column( nullable = false)
-    private String storyId;
+    private Long storyId;
 
     @Column( nullable = false)
-    private String chapterId;
+    private Long chapterId;
 
     //Lưu thời gian mới nhất
     @Column(name = "created_at")

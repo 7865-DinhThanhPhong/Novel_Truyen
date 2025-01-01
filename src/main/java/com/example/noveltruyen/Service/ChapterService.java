@@ -25,18 +25,8 @@ public class ChapterService {
     }
 
     public Chapter Update (Chapter chapter){
-        Chapter chapterExist = chapterRepository.findById(chapter.getId()).orElse(null);
-        if (chapterExist != null){
-            chapterExist.setChapterNumber(chapter.getChapterNumber());
-            chapterExist.setTitle(chapter.getTitle());
-            chapterExist.setStory(chapter.getStory());
-            chapterExist.setView(chapter.getView());
-            chapterExist.setCreateAt(chapterExist.getCreateAt());
-            chapterExist.setContent(chapterExist.getContent());
 
-            return chapterRepository.save(chapterExist);
-        }
-        return null;
+        return chapterRepository.save(chapter);
     }
 
     public Chapter Add (Chapter chapter){

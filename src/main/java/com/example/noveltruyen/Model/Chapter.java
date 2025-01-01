@@ -9,17 +9,15 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter @Setter
 @Entity
 @Table(name = "chapters")
 public class Chapter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -43,4 +41,6 @@ public class Chapter {
     private LocalDateTime updateAt;
 
     private int view;
+    @Transient
+    private int test;
 }
