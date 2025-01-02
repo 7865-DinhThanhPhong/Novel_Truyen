@@ -1,12 +1,15 @@
 package com.example.noveltruyen.Controller;
 
 import com.example.noveltruyen.Model.Chapter;
+import com.example.noveltruyen.Model.Story;
 import com.example.noveltruyen.Service.ChapterService;
+import com.example.noveltruyen.Service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +19,20 @@ public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
+    @Autowired
+    private StoryService storyService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Chapter> getChapterById(@PathVariable Long id) {
         Optional<Chapter> chapter = chapterService.getById(id);
         return chapter.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/story/{id}")
+    public ResponseEntity<List<Chapter>> getChaptersByStory (@PathVariable Long id){
+        List<Chapter> chapters = chapterService.getByChaptersStoryId(id);
+        return ResponseEntity.ok(chapters);
     }
 
     @GetMapping
@@ -31,37 +42,41 @@ public class ChapterController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Chapter> updateChapter(@PathVariable Long id, @RequestBody Chapter chapter) {
+    public ResponseEntity<Story> updateChapter(@PathVariable Long id, @RequestBody Chapter chapter) {
 
         Chapter chapterExist = chapterService.getById(id).orElse(null);
         if (chapterExist != null){
-
             chapterExist.setTitle(chapter.getTitle());
-            chapterExist.setStory(chapter.getStory());
-            chapterExist.setView(chapter.getView());
-            chapterExist.setCreateAt(chapterExist.getCreateAt());
-            chapterExist.setContent(chapterExist.getContent());
+            chapterExist.setContent(chapter.getContent());
             chapterExist.setChapterNumber(chapter.getChapterNumber());
+            chapterExist.setUpdateAt(LocalDateTime.now());
             Chapter updatedChapter = chapterService.Update(chapterExist);
-            if (chapterService != null)
-                return new ResponseEntity<>(updatedChapter, HttpStatus.OK);
+            if (updatedChapter != null)
+                return  ResponseEntity.ok(updatedChapter.getStory()); // Tra ve story
         }
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return  ResponseEntity.badRequest().build();
 
     }
 
-    @PostMapping
-    public ResponseEntity<Chapter> addChapter(@RequestBody Chapter chapter) {
+    @PostMapping("/{id}")
+    public ResponseEntity<Chapter> addChapter(@RequestBody Chapter chapter, @PathVariable Long id) {
+        Story story = storyService.findStoryById(id);
+        chapter.setStory(story);
         Chapter savedChapter = chapterService.Add(chapter);
+
+        storyService.addChapterToChapters(savedChapter.getStory().getId(), savedChapter);
         return new ResponseEntity<>(savedChapter, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteChapterById(@PathVariable Long id) {
-        chapterService.DeleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
+        Chapter chapter = chapterService.getById(id).orElse(null);
+        if(chapter!= null){
+            storyService.deleteChapterFromChapters(chapter.getStory().getId(), chapter);
+            chapterService.DeleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}/view")

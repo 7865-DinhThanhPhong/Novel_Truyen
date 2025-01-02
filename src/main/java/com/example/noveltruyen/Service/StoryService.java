@@ -1,5 +1,6 @@
 package com.example.noveltruyen.Service;
 
+import com.example.noveltruyen.Model.Chapter;
 import com.example.noveltruyen.Model.Story;
 import com.example.noveltruyen.Repository.StoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +110,22 @@ public class StoryService {
 
             Path filePath1 = Paths.get (imagePath1);
             Files.deleteIfExists(filePath1);
+        }
+    }
+
+    public void addChapterToChapters (Long storyId, Chapter chapter){
+        Story story = findStoryById(storyId);
+        if (story != null){
+            story.getChapters().add(chapter);
+            storyRepository.save(story);
+        }
+    }
+
+    public void deleteChapterFromChapters (Long storyId, Chapter chapter){
+        Story story = findStoryById(storyId);
+        if (story != null){
+            story.getChapters().remove(chapter);
+            storyRepository.save(story);
         }
     }
 }

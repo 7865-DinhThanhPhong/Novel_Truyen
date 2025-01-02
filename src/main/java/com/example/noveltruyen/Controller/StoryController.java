@@ -30,7 +30,7 @@ public class StoryController {
     @GetMapping
     public ResponseEntity<List<Story>> getAllStories() {
         List<Story> stories = storyService.findAllStories();
-        return new ResponseEntity<>(stories, HttpStatus.OK);
+        return ResponseEntity.ok(stories);
     }
 
     @GetMapping("/{id}")
@@ -135,7 +135,8 @@ public class StoryController {
                 categories.add(existingCategory);
             }
             existingStory.setCategories(categories);
-            existingStory.setChapters(updatedStory.getChapters());
+            if(updatedStory.getChapters() != null)
+                existingStory.setChapters(updatedStory.getChapters());
 
             if (coverImageFile != null && !coverImageFile.isEmpty()) {
                 // Delete old image if exists
@@ -143,13 +144,15 @@ public class StoryController {
 
                 String imageUrl = storyService.uploadImage(coverImageFile);
                 existingStory.setCoverImageUrl(baseUrl + imageUrl);
+            }else {
+                existingStory.setCoverImageUrl(updatedStory.getCoverImageUrl());
             }
 
             existingStory.setTitle(updatedStory.getTitle());
             existingStory.setAuthor(updatedStory.getAuthor());
             existingStory.setDescription(updatedStory.getDescription());
-            existingStory.setCompleted(updatedStory.isCompleted());
-            existingStory.setViews(updatedStory.getViews());
+            existingStory.setDescriptionShow(updatedStory.getDescriptionShow());
+
 
             Story savedStory = storyService.saveStory(existingStory);
             return new ResponseEntity<>(savedStory, HttpStatus.OK);

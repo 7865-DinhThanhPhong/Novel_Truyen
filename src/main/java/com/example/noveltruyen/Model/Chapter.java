@@ -1,11 +1,13 @@
 package com.example.noveltruyen.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -34,9 +36,12 @@ public class Chapter {
     @CreationTimestamp
     private LocalDateTime createAt;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "story_id")
     private Story story;
+
+    @UpdateTimestamp
     @Column
     private LocalDateTime updateAt;
 
@@ -44,7 +49,5 @@ public class Chapter {
     @Transient
     private int test;
 
-    public String getTitle(){
-        return title;
-    }
+
 }

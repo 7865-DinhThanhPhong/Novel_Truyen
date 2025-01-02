@@ -1,4 +1,5 @@
 package com.example.noveltruyen.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,7 +38,7 @@ public class Story {
     @Column (columnDefinition = "TEXT")
     private String descriptionShow; // description khi dùng editor
 
-    @Column(name = "cover_image_url")
+    @Column(name = "cover_image_url", columnDefinition = "TEXT")
     private String coverImageUrl;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

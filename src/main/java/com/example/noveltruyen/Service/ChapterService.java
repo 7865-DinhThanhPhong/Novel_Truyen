@@ -20,6 +20,10 @@ public class ChapterService {
         return chapterRepository.findById(id);
     }
 
+    public List<Chapter> getByChaptersStoryId (Long storyId){
+        return getAll().stream().filter(c -> c.getStory().getId() == storyId).toList();
+    }
+
     public List<Chapter> getAll (){
         return chapterRepository.findAll();
     }
