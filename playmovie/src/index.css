@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+* {
+  font-family: "Open Sans", sans-serif, ;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+
+}
+
+.bungee-spice-regular {
+  font-family: "Bungee Spice", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html{
+  background-color: black;
+}
+
+.Home_layout {
+  max-width: 75%;
+  background-color: black;
+  margin: auto;
+}
+.Admin_Layout{
+  max-width: 90%;
+  background-color: black;
+  margin: auto;
+}
+
+/* tailwind.css */
+.movie-list-enter {
+  @apply transform translate-x-full;
+}
+
+.movie-list-enter-active {
+  @apply transition-transform duration-300 ease-in-out;
+  @apply transform translate-x-0;
+}
+
+.movie-list-exit {
+  @apply transform translate-x-0;
+}
+
+.movie-list-exit-active {
+  @apply transition-transform duration-300 ease-in-out;
+  @apply transform -translate-x-full;
+}
+
+.react-multi-carousel-dot-list {
+  margin-right: 5px;
+  background-color: red;
+}
+
+@import "flowbite/dist/flowbite.min.css";
