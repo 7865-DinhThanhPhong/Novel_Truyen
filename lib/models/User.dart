@@ -1,67 +1,40 @@
 class User {
-  int? _id;
-  String _username;
-  String _email;
-  List<String> _favoriteStories;
-  List<String> _readStories;
+  int? userId;
+  String? username;
+  String? password;
+  String? email;
+  String? avatar;
+  String? role;
+  List<int>? favoriteStories;
 
-  User({
-    int? id,
-    required String username,
-    required String email,
-    List<String> favoriteStories = const [],
-    List<String> readStories = const [],
-  })  : _id = id,
-        _username = username,
-        _email = email,
-        _favoriteStories = favoriteStories,
-        _readStories = readStories;
+  User(
+      {this.userId,
+        this.username,
+        this.password,
+        this.email,
+        this.avatar,
+        this.role,
+        this.favoriteStories});
 
-  // Getters
-  int? get id => _id;
-  String get username => _username;
-  String get email => _email;
-  List<String> get favoriteStories => _favoriteStories;
-  List<String> get readStories => _readStories;
-
-  // Setters
-  set id(int? value) {
-    _id = value;
-  }
-
-  set username(String value) {
-    _username = value;
-  }
-
-  set email(String value) {
-    _email = value;
-  }
-
-  set favoriteStories(List<String> value) {
-    _favoriteStories = value;
-  }
-
-  set readStories(List<String> value) {
-    _readStories = value;
-  }
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      username: json['username'],
-      email: json['email'],
-      favoriteStories: List<String>.from(json['favoriteStories'] ?? []),
-      readStories: List<String>.from(json['readStories'] ?? []),
-    );
+  User.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    username = json['username'];
+    password = json['password'];
+    email = json['email'];
+    avatar = json['avatar'];
+    role = json['role'];
+    favoriteStories = json['favoriteStories'].cast<int>();
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      // 'id': _id, // Removed id for auto-increment
-      'username': _username,
-      'email': _email,
-      'favoriteStories': _favoriteStories,
-      'readStories': _readStories,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['username'] = username;
+    data['password'] = password;
+    data['email'] = email;
+    data['avatar'] = avatar;
+    data['role'] = role;
+    data['favoriteStories'] = favoriteStories;
+    return data;
   }
 }

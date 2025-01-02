@@ -1,67 +1,61 @@
+import 'User.dart';
+
 class Comment {
-  int? _id;
-  String _userId;
-  String _storyId;
-  String _content;
-  DateTime _createdAt;
+  int? id;
+  User? user;
+  int? storyId; // Không cần class Story, chỉ cần id là đủ
+  String? content;
+  DateTime? createdAt;
+  DateTime? update_at;
+  Comment? parent; // Refer to the parent comment (if it's a reply)
+  List<Comment>? replies; // List of reply comments
 
-  Comment({
-    int? id,
-    required String userId,
-    required String storyId,
-    required String content,
-    required DateTime createdAt,
-  })  : _id = id,
-        _userId = userId,
-        _storyId = storyId,
-        _content = content,
-        _createdAt = createdAt;
+  Comment(
+      {this.id,
+        this.user,
+        this.storyId,
+        this.content,
+        this.createdAt,
+        this.update_at,
+        this.parent,
+        this.replies});
 
-  // Getters
-  int? get id => _id;
-  String get userId => _userId;
-  String get storyId => _storyId;
-  String get content => _content;
-  DateTime get createdAt => _createdAt;
-
-  // Setters
-  set id(int? value) {
-    _id = value;
-  }
-
-  set userId(String value) {
-    _userId = value;
-  }
-
-  set storyId(String value) {
-    _storyId = value;
-  }
-
-  set content(String value) {
-    _content = value;
-  }
-
-  set createdAt(DateTime value) {
-    _createdAt = value;
-  }
-
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(
-      id: json['id'],
-      userId: json['userId'],
-      storyId: json['storyId'],
-      content: json['content'],
-      createdAt: DateTime.parse(json['createdAt']),
-    );
+  Comment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    storyId = json['storyId'];
+    content = json['content'];
+    createdAt = json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'])
+        : null;
+    update_at = json['updateAt'] != null
+        ? DateTime.parse(json['updateAt'])
+        : null;
+    parent = json['parent'] != null ? Comment.fromJson(json['parent']) : null;
+    if (json['replies'] != null) {
+      replies = <Comment>[];
+      json['replies'].forEach((v) {
+        replies!.add(Comment.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      // 'id': _id, // Removed id for auto-increment
-      'userId': _userId,
-      'storyId': _storyId,
-      'content': _content,
-      'createdAt': _createdAt.toIso8601String(),
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    data['storyId'] = storyId;
+    data['content'] = content;
+    data['createdAt'] = createdAt?.toIso8601String();
+    data['updateAt'] = update_at?.toIso8601String();
+    if (parent != null) {
+      data['parent'] = parent!.toJson();
+    }
+    if (replies != null) {
+      data['replies'] = replies!.map((v) => v.toJson()).toList();
+    }
+    return data;
   }
 }

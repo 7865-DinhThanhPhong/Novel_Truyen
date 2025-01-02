@@ -30,6 +30,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^1.1.0 # Dùng để gọi API
+  provider: ^6.0.5 # Quản lý state (có thể dùng BLoC, Riverpod,...)
+  shared_preferences: ^2.2.2 # Lưu trữ dữ liệu local (token, lịch sử,...)
+  cached_network_image: ^3.3.0 # Tải và cache ảnh
+  flutter_html: ^3.0.0-beta.2
+  email_validator: ^2.1.17
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

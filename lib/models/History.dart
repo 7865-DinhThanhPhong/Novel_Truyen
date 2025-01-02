@@ -1,17 +1,17 @@
-class Rating {
+class History {
   int? id;
   int? userId;
   int? storyId;
-  double? value;
+  int? chapterId;
   DateTime? createdAt;
 
-  Rating({this.id, this.userId, this.storyId, this.value, this.createdAt});
+  History({this.id, this.userId, this.storyId, this.chapterId, this.createdAt});
 
-  Rating.fromJson(Map<String, dynamic> json) {
+  History.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     storyId = json['storyId'];
-    value = json['value'];
+    chapterId = json['chapterId'];
     createdAt = json['createdAt'] != null
         ? DateTime.parse(json['createdAt'])
         : null;
@@ -22,7 +22,7 @@ class Rating {
     data['id'] = id;
     data['userId'] = userId;
     data['storyId'] = storyId;
-    data['value'] = value;
+    data['chapterId'] = chapterId;
     data['createdAt'] = createdAt?.toIso8601String();
     return data;
   }

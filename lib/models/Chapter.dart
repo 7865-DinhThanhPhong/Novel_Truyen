@@ -1,67 +1,46 @@
 class Chapter {
-  int? _id;
-  String _title;
-  String _content;
-  int _chapterNumber;
-  DateTime _publishedAt;
+  int? id;
+  String? title;
+  String? content;
+  int? chapterNumber;
+  DateTime? createAt;
+  DateTime? updateAt;
+  int? view;
+  int? test; // Giá trị này sẽ không được serialize/deserialize
 
-  Chapter({
-    int? id,
-    required String title,
-    required String content,
-    required int chapterNumber,
-    required DateTime publishedAt,
-  })  : _id = id,
-        _title = title,
-        _content = content,
-        _chapterNumber = chapterNumber,
-        _publishedAt = publishedAt;
+  Chapter(
+      {this.id,
+        this.title,
+        this.content,
+        this.chapterNumber,
+        this.createAt,
+        this.updateAt,
+        this.view,
+        this.test});
 
-  // Getters
-  int? get id => _id;
-  String get title => _title;
-  String get content => _content;
-  int get chapterNumber => _chapterNumber;
-  DateTime get publishedAt => _publishedAt;
-
-  // Setters
-  set id(int? value) {
-    _id = value;
-  }
-
-  set title(String value) {
-    _title = value;
-  }
-
-  set content(String value) {
-    _content = value;
-  }
-
-  set chapterNumber(int value) {
-    _chapterNumber = value;
-  }
-
-  set publishedAt(DateTime value) {
-    _publishedAt = value;
-  }
-
-  factory Chapter.fromJson(Map<String, dynamic> json) {
-    return Chapter(
-      id: json['id'],
-      title: json['title'],
-      content: json['content'],
-      chapterNumber: json['chapterNumber'],
-      publishedAt: DateTime.parse(json['publishedAt']),
-    );
+  Chapter.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    content = json['content'];
+    chapterNumber = json['chapterNumber'];
+    createAt = json['createAt'] != null
+        ? DateTime.parse(json['createAt'])
+        : null;
+    updateAt = json['updateAt'] != null
+        ? DateTime.parse(json['updateAt'])
+        : null;
+    view = json['view'];
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      // 'id': _id, // Removed id for auto-increment
-      'title': _title,
-      'content': _content,
-      'chapterNumber': _chapterNumber,
-      'publishedAt': _publishedAt.toIso8601String(),
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['content'] = content;
+    data['chapterNumber'] = chapterNumber;
+    data['createAt'] = createAt?.toIso8601String();
+    data['updateAt'] = updateAt?.toIso8601String();
+    data['view'] = view;
+    return data;
   }
 }
