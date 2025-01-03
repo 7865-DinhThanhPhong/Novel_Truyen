@@ -5,7 +5,7 @@ import '../models/User.dart'; // Import model User, thay truyen bằng tên pack
 
 class AuthApi {
   static const String baseUrl =
-      "http://localhost:8082/api/auth"; // Thay bằng địa chỉ backend của bạn
+      "http://10.0.2.2:8082/api/auth"; // Thay bằng địa chỉ backend của bạn
 
   Future<bool> register(String email, String password) async {
     final response = await http.post(
@@ -19,7 +19,7 @@ class AuthApi {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return true;
     } else {
 

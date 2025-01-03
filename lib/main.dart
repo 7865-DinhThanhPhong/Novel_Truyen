@@ -1,45 +1,33 @@
+// main.dart
 import 'package:flutter/material.dart';
-import '/Screens/Welcome/welcome_screen.dart';
-import '../../../constants.dart';
+import 'package:provider/provider.dart';
+import './providers/auth_provider.dart'; // Thay truyen_chu bằng tên package của bạn
+import './providers/story_provider.dart'; // Thay truyen_chu bằng tên package của bạn
+import './routes.dart'; // Thay truyen_chu bằng tên package của bạn
+import './screens/welcome_screen.dart'; // Thay truyen_chu bằng tên package của bạn
 
-
-void main() => runApp(const MyApp());
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => StoryProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Auth',
+      title: 'Truyện Chữ',
       theme: ThemeData(
-          primaryColor: kPrimaryColor,
-          scaffoldBackgroundColor: Colors.white,
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              foregroundColor: Colors.white,
-              backgroundColor: kPrimaryColor,
-              shape: const StadiumBorder(),
-              maximumSize: const Size(double.infinity, 56),
-              minimumSize: const Size(double.infinity, 56),
-            ),
-          ),
-          inputDecorationTheme: const InputDecorationTheme(
-            filled: true,
-            fillColor: kPrimaryLightColor,
-            iconColor: kPrimaryColor,
-            prefixIconColor: kPrimaryColor,
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: defaultPadding, vertical: defaultPadding),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              borderSide: BorderSide.none,
-            ),
-          )),
-      home: const WelcomeScreen(),
+        primarySwatch: Colors.blue,
+      ),
+      initialRoute: '/welcome', // Thay đổi dòng này
+      routes: routes,
     );
   }
 }
