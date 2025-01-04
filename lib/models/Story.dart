@@ -11,9 +11,11 @@ class Story {
   List<Chapter>? chapters;
   List<Category>? categories;
   int? views;
+  double? averageRating ;
   DateTime? createdAt;
   DateTime? updatedAt;
   bool? isCompleted;
+
 
   Story({
     this.id,
@@ -28,7 +30,9 @@ class Story {
     this.createdAt,
     this.updatedAt,
     this.isCompleted,
+    this.averageRating=0,
   });
+
 
   Story.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -36,6 +40,7 @@ class Story {
     author = json['author'];
     description = json['description'];
     descriptionShow = json['descriptionShow'];
+    averageRating = (json['averageRating'] as num?)?.toDouble() ?? 0.0;
     coverImageUrl = json['coverImageUrl'];
     if (json['chapters'] != null) {
       chapters = <Chapter>[];
@@ -66,6 +71,7 @@ class Story {
     data['author'] = author;
     data['description'] = description;
     data['descriptionShow'] = descriptionShow;
+    data['averageRating'] = averageRating;
     data['coverImageUrl'] = coverImageUrl;
     if (chapters != null) {
       data['chapters'] = chapters!.map((v) => v.toJson()).toList();

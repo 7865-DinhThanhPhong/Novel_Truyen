@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import './login_screen.dart';
-import '../providers/story_provider.dart';
-import './story_detail_screen.dart';
 import './home_page.dart';
 import './categories_screen.dart';
 import './library_screen.dart';
@@ -27,18 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Truyện Hay"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await Provider.of<AuthProvider>(context, listen: false).logout();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-          ),
-        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -54,24 +40,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Center(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center, // Căn giữa theo chiều ngang
+                  mainAxisAlignment: MainAxisAlignment.center, // Căn giữa theo chiều dọc
                   children: [
                     Consumer<AuthProvider>(
                       builder: (context, authProvider, child) {
                         final user = authProvider.user;
                         return CircleAvatar(
-                          radius: 40, // Tăng kích thước avatar
+                          radius: 40,
                           backgroundColor: Colors.white,
                           backgroundImage: user?.avatar != null
                               ? NetworkImage(user!.avatar!)
-                              : null, // Sử dụng backgroundImage thay vì child
+                              : null,
                           child: user?.avatar == null
                               ? Icon(
                             Icons.person,
                             size: 40,
                             color: Colors.grey,
                           )
-                              : null, // Ẩn icon nếu có avatar
+                              : null,
                         );
                       },
                     ),
@@ -79,28 +66,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     Consumer<AuthProvider>(
                       builder: (context, authProvider, child) {
                         final user = authProvider.user;
-                        return Expanded( // Bọc Column trong Expanded
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                user?.email ?? 'Email chưa cập nhật',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16, // Giảm fontSize
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center, // Căn giữa text
+                          children: [
+                            Text(
+                              user?.email ?? 'Email chưa cập nhật',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(height: 2), // Giảm height
-                              Text(
-                                user?.username ?? 'Tên người dùng',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13, // Giảm fontSize
-                                ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              user?.username ?? 'Tên người dùng',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         );
                       },
                     ),
@@ -110,9 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: Icon(Icons.home, color: Colors.deepPurple),
-              title: Text('Trang chủ', style: TextStyle(fontSize: 16)), // Tăng kích thước font chữ
+              title: Text('Trang chủ', style: TextStyle(fontSize: 16)),
               onTap: () {
                 Navigator.pop(context); // Đóng drawer
+                setState(() {
+                  _currentIndex = 0; // Chuyển về trang chủ
+                });
               },
             ),
             ListTile(
@@ -120,7 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text('Thể loại', style: TextStyle(fontSize: 16)),
               onTap: () {
                 Navigator.pop(context);
-                // Chuyển đến trang Thể loại (nếu cần)
+                setState(() {
+                  _currentIndex = 1; // Chuyển đến trang Thể loại
+                });
               },
             ),
             ListTile(
@@ -128,16 +118,18 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text('Thư viện', style: TextStyle(fontSize: 16)),
               onTap: () {
                 Navigator.pop(context);
-                // Chuyển đến trang Thư viện (nếu cần)
+                setState(() {
+                  _currentIndex = 2; // Chuyển đến trang Thư viện
+                });
               },
             ),
-            Divider(height: 1, color: Colors.grey), // Thêm đường phân cách
+            Divider(height: 1, color: Colors.grey),
             ListTile(
               leading: Icon(Icons.settings, color: Colors.deepPurple),
               title: Text('Cài đặt', style: TextStyle(fontSize: 16)),
               onTap: () {
                 Navigator.pop(context);
-                // Xử lý khi chọn Cài đặt
+                // Xử lý khi chọn Cài đặt (nếu cần)
               },
             ),
             ListTile(
@@ -145,7 +137,17 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Text('Giới thiệu', style: TextStyle(fontSize: 16)),
               onTap: () {
                 Navigator.pop(context);
-                // Xử lý khi chọn Giới thiệu
+                // Xử lý khi chọn Giới thiệu (nếu cần)
+              },
+            ),
+            Divider(height: 1, color: Colors.grey),
+            ListTile(
+              leading: Icon(Icons.logout, color: Colors.deepPurple),
+              title: Text('Đăng xuất', style: TextStyle(fontSize: 16)),
+              onTap: () async {
+                Navigator.pop(context); // Đóng drawer
+                await Provider.of<AuthProvider>(context, listen: false).logout();
+                Navigator.pushReplacementNamed(context, '/login'); // Chuyển đến màn hình đăng nhập
               },
             ),
           ],
@@ -177,6 +179,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// Các màn hình (HomePage, CategoriesScreen, LibraryScreen) được tách ra thành các file riêng
-// để code dễ đọc và quản lý hơn.

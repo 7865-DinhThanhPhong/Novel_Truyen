@@ -6,6 +6,7 @@ class LibraryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Thư Viện"),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Text("Truyện trong thư viện"),
